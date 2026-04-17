@@ -20,9 +20,9 @@ class GlobalController extends AbstractController
     public function liste(): Response
     {   
         $films = [
-            'Les visiteurs 1',
-            'Tais-toi',
-            'Django Unchained'
+            'Les visiteurs 1, 1993',
+            'Tais-toi, 2006',
+            'Django Unchained, 2012'
         ];
         return $this->render('liste.html.twig', ['titre' => 'Liste des films', 'films' => $films]);
     }
