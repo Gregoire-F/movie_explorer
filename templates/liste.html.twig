@@ -6,9 +6,11 @@
 
 <div>
     <h1>{{ titre }}</h1>
-    <li>Les visiteurs 1</li>
-    <li>Tais-toi</li>
-    <li>Django Unchained</li>
+    <ul>
+        {% for film in films %}
+            <li>{{ film }}</li>
+        {% endfor %}
+    </ul>
 </div>
 
 {% endblock %}

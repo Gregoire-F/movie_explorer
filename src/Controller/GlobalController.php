@@ -18,8 +18,13 @@ class GlobalController extends AbstractController
     #[Route('/liste', name: 'app_liste')]
 
     public function liste(): Response
-    {
-        return $this->render('liste.html.twig', ['titre' => 'Liste des films']);
+    {   
+        $films = [
+            'Les visiteurs 1',
+            'Tais-toi',
+            'Django Unchained'
+        ];
+        return $this->render('liste.html.twig', ['titre' => 'Liste des films', 'films' => $films]);
     }
     #[Route('/contact', name: 'app_contact')]
     public function contact(): Response
