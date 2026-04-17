@@ -8,7 +8,9 @@
     <h1>{{ titre }}</h1>
     <ul>
         {% for film in films %}
-            <li>{{ film }}</li>
+            <li>{{film.id}}</li>
+            <li>{{film.titre}}</li>
+            <li>{{film.annee}}</li>
         {% endfor %}
     </ul>
 </div>
