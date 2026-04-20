@@ -32,25 +32,28 @@ final class SoireeController extends AbstractController
     //     return new Response("Soirée créé avec l'ID : " . $soiree->getId());
     // }
 
-#[Route('/soiree/creer', name: 'creer_soiree')]
-function creerSoiree(EntityManagerInterface $em, Request $request): Response
-{
-    $soiree = new Soiree();
-    $soiree->setDateCreation(new \DateTimeImmutable()); 
+    #[Route('/soiree/creer', name: 'creer_soiree')]
+    function creerSoiree(EntityManagerInterface $em, Request $request): Response
+    {
+        $soiree = new Soiree();
+        $soiree->setDateCreation(new \DateTimeImmutable());
+        $form = $this->createForm(SoireeType::class, $soiree, [
+            'attr' => ['novalidate' => 'novalidate']
+        ]);
 
-    $form = $this->createForm(SoireeType::class, $soiree);
-    $form->handleRequest($request);
+        // $form = $this->createForm(SoireeType::class, $soiree);
+        $form->handleRequest($request);
 
-    if ($form->isSubmitted() && $form->isValid()) {
-        $em->persist($soiree);
-        $em->flush();
-        return $this->redirectToRoute('app_soiree');
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em->persist($soiree);
+            $em->flush();
+            return $this->redirectToRoute('app_soiree');
+        }
+
+        return $this->render('soiree/creer.html.twig', [
+            'form' => $form->createView(),
+        ]);
     }
-
-    return $this->render('soiree/creer.html.twig', [
-        'form' => $form->createView(),
-    ]);
-}
 
     #[Route('/soiree/{id}', name: 'show_soiree')]
     function showSoiree(Soiree $soiree): Response
