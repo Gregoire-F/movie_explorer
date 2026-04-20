@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Créer une soirée{% endblock %}
+
+{% block body %}
+<div class="example-wrapper">
+    <h1>Créer une soirée</h1>
+
+    {{ form_start(form) }}
+    {{ form_row(form.titre) }}
+    {{ form_row(form.dateSoiree) }}
+    {{ form_row(form.statut) }}
+    {{ form_row(form.email) }}
+    <button type="submit">Créer</button>
+    {{ form_end(form) }}
+</div>
+{% endblock %}
