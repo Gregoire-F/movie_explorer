@@ -26,11 +26,11 @@ class SoireeType extends AbstractType
             ->add('email')
             ->add('artistes', EntityType::class, [
                 'class' => Artiste::class,
-                'choice_label' => 'nom',  // ⚠️ vérifie que la propriété "nom" existe dans Artiste
+                'choice_label' => 'nom',  
                 'multiple' => true,
-                'expanded' => true,       // ✅ affiche des cases à cocher
+                'expanded' => true,      
                 'required' => false,
-                'by_reference' => false,  // ✅ force Symfony à appeler addArtiste/removeArtiste
+                'by_reference' => false, 
             ])
         ;
     }
