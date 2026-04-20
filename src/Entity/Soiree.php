@@ -2,9 +2,13 @@
 
 namespace App\Entity;
 
+use App\Entity\Artiste;
 use App\Repository\SoireeRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\ManyToMany;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: SoireeRepository::class)]
@@ -40,6 +44,16 @@ class Soiree
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $email = null;
 
+    // ✅ AJOUT : la relation ManyToMany sur une propriété
+    #[ORM\ManyToMany(targetEntity: Artiste::class, inversedBy: 'soirees')]
+    #[ORM\JoinTable(name: 'soiree_artiste')]
+    private Collection $artistes;
+
+    // ✅ AJOUT : initialiser la collection dans le constructeur
+    public function __construct()
+    {
+        $this->artistes = new ArrayCollection();
+    }
     public function getId(): ?int
     {
         return $this->id;
@@ -102,6 +116,25 @@ class Soiree
     {
         $this->email = $email;
 
+        return $this;
+    }
+        // ✅ AJOUT : getters/setters pour artistes
+    public function getArtistes(): Collection
+    {
+        return $this->artistes;
+    }
+
+    public function addArtiste(Artiste $artiste): static
+    {
+        if (!$this->artistes->contains($artiste)) {
+            $this->artistes->add($artiste);
+        }
+        return $this;
+    }
+
+    public function removeArtiste(Artiste $artiste): static
+    {
+        $this->artistes->removeElement($artiste);
         return $this;
     }
 }

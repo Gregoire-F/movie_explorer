@@ -1,26 +1,43 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello SoireeController!{% endblock %}
+{% block title %}Soiree index{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <h1>Soiree index</h1>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+    <table class="table mb-4">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Titre</th>
+                <th>DateSoiree</th>
+                <th>DateCreation</th>
+                <th>Statut</th>
+                <th>Email</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for soiree in soirees %}
+            <tr>
+                <td>{{ soiree.id }}</td>
+                <td>{{ soiree.titre }}</td>
+                <td>{{ soiree.dateSoiree ? soiree.dateSoiree|date('Y-m-d') : '' }}</td>
+                <td>{{ soiree.dateCreation ? soiree.dateCreation|date('Y-m-d') : '' }}</td>
+                <td>{{ soiree.statut }}</td>
+                <td>{{ soiree.email }}</td>
+                <td>
+                    <a href="{{ path('app_soiree_show', {'id': soiree.id}) }}">show</a>
+                    <a href="{{ path('app_soiree_edit', {'id': soiree.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>C:/Users/g.frou/Documents/CEFIM/movie_explorer/src/Controller/SoireeController.php</code></li>
-        <li>Your template at <code>C:/Users/g.frou/Documents/CEFIM/movie_explorer/templates/soiree/index.html.twig</code></li>
-
-                {# <li>{{ soiree.id }}</li>
-        <li>{{ soiree.titre }}</li>
-        <li>{{ soiree.dateSoiree|date('d/m/Y') }}</li>
-        <li>{{ soiree.dateCreation|date('d/m/Y') }}</li>
-        <li>{{ soiree.statut }}</li> #}
-    </ul>
-</div>
+    <a class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-2xl" href="{{ path('app_soiree_new') }}">Create new</a>
 {% endblock %}
