@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\SoireeRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: SoireeRepository::class)]
 class Soiree
@@ -14,7 +15,17 @@ class Soiree
     #[ORM\Column]
     private ?int $id = null;
 
+    // #[ORM\Column(length: 255)]
+    // private ?string $titre = null;
+
     #[ORM\Column(length: 255)]
+    #[Assert\Length(
+        min: 5,
+        max: 65,
+        minMessage: 'Ce titre est trop court.',
+        maxMessage: 'Ce titre est trop long.'
+    )]
+    #[Assert\NotBlank(message: 'Le titre ne peut pas être vide.')]
     private ?string $titre = null;
 
     #[ORM\Column(type: Types::DATE_IMMUTABLE)]
