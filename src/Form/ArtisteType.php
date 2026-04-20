@@ -17,7 +17,7 @@ class ArtisteType extends AbstractType
             ->add('nom')
             ->add('soirees', EntityType::class, [
                 'class' => Soiree::class,
-                'choice_label' => 'id',
+                'choice_label' => 'titre',
                 'multiple' => true,
             ])
         ;
