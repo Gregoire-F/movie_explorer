@@ -10,11 +10,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[Route('/theme')]
+#[Route('/admin/theme')]
+#[IsGranted('ROLE_ADMIN')]
 final class ThemeController extends AbstractController
 {
-    #[Route(name: 'app_theme_index', methods: ['GET'])]
+    #[Route(name: 'app_admin_theme_index', methods: ['GET'])]
     public function index(ThemeRepository $themeRepository): Response
     {
         return $this->render('theme/index.html.twig', [
@@ -22,7 +24,7 @@ final class ThemeController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_theme_new', methods: ['GET', 'POST'])]
+    #[Route('/new', name: 'app_admin_theme_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $theme = new Theme();
@@ -33,7 +35,7 @@ final class ThemeController extends AbstractController
             $entityManager->persist($theme);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_theme_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_admin_theme_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('theme/new.html.twig', [
@@ -42,7 +44,7 @@ final class ThemeController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_theme_show', methods: ['GET'])]
+    #[Route('/{id}', name: 'app_admin_theme_show', methods: ['GET'])]
     public function show(Theme $theme): Response
     {
         return $this->render('theme/show.html.twig', [
@@ -50,7 +52,7 @@ final class ThemeController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_theme_edit', methods: ['GET', 'POST'])]
+    #[Route('/{id}/edit', name: 'app_admin_theme_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Theme $theme, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(ThemeType::class, $theme);
@@ -59,7 +61,7 @@ final class ThemeController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_theme_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_admin_theme_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('theme/edit.html.twig', [
@@ -68,7 +70,7 @@ final class ThemeController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_theme_delete', methods: ['POST'])]
+    #[Route('/{id}', name: 'app_admin_theme_delete', methods: ['POST'])]
     public function delete(Request $request, Theme $theme, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$theme->getId(), $request->getPayload()->getString('_token'))) {
@@ -76,6 +78,6 @@ final class ThemeController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('app_theme_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_admin_theme_index', [], Response::HTTP_SEE_OTHER);
     }
 }

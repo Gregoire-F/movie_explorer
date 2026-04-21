@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil - Discothèque{% endblock %}
+
+{% block body %}
+    <h1 class="bold text-3xl text-white text-center bg-gray-800 mb-4">Prochaines Soirées</h1>
+
+    <div class="max-w-6xl mx-auto px-4">
+        {% if soirees is empty %}
+            <p class="text-center text-gray-600 text-lg">Aucune soirée prévue pour le moment.</p>
+        {% else %}
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {% for soiree in soirees %}
+                    <div class="bg-white rounded-lg shadow-md p-6">
+                        <h2 class="text-xl font-bold text-gray-800 mb-2">{{ soiree.titre }}</h2>
+                        <p class="text-gray-600 mb-2">
+                            <strong>Date:</strong> {{ soiree.dateSoiree ? soiree.dateSoiree|date('d/m/Y') : 'N/A' }}
+                        </p>
+                        <p class="text-gray-600 mb-2">
+                            <strong>Statut:</strong> {{ soiree.statut }}
+                        </p>
+                        {% if soiree.theme %}
+                            <p class="text-gray-600 mb-2">
+                                <strong>Thème:</strong> {{ soiree.theme.name }}
+                            </p>
+                        {% endif %}
+                        {% if soiree.artistes|length > 0 %}
+                            <p class="text-gray-600 mb-2">
+                                <strong>Artistes:</strong>
+                                {% for artiste in soiree.artistes %}
+                                    {{ artiste.nom }}{% if not loop.last %}, {% endif %}
+                                {% endfor %}
+                            </p>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

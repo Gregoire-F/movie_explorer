@@ -19,6 +19,24 @@
         {% endif %}
     </head>
     <body>
+        <nav class="bg-gray-800 text-white px-6 py-4 mb-6">
+            <div class="max-w-6xl mx-auto flex items-center justify-between">
+                <div class="flex items-center gap-6">
+                    <a href="{{ path('app_home') }}" class="text-xl font-bold hover:text-gray-300">Discothèque</a>
+                </div>
+                <div class="flex items-center gap-4">
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <a href="{{ path('app_admin_dashboard') }}" class="bg-yellow-500 hover:bg-yellow-600 text-gray-900 font-bold py-2 px-4 rounded">Dashboard</a>
+                    {% endif %}
+                    {% if app.user %}
+                        <span class="text-gray-400">{{ app.user.email }}</span>
+                        <a href="{{ logout_path() }}" class="text-red-400 hover:text-red-300">Déconnexion</a>
+                    {% else %}
+                        <a href="{{ path('app_login') }}" class="text-blue-400 hover:text-blue-300">Connexion</a>
+                    {% endif %}
+                </div>
+            </div>
+        </nav>
         {% block body %}{% endblock %}
     </body>
 </html>

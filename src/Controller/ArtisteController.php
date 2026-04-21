@@ -10,11 +10,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[Route('/artiste')]
+#[Route('/admin/artiste')]
+#[IsGranted('ROLE_ADMIN')]
 final class ArtisteController extends AbstractController
 {
-    #[Route(name: 'app_artiste_index', methods: ['GET'])]
+    #[Route(name: 'app_admin_artiste_index', methods: ['GET'])]
     public function index(ArtisteRepository $artisteRepository): Response
     {
         return $this->render('artiste/index.html.twig', [
@@ -22,7 +24,7 @@ final class ArtisteController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_artiste_new', methods: ['GET', 'POST'])]
+    #[Route('/new', name: 'app_admin_artiste_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $artiste = new Artiste();
@@ -33,7 +35,7 @@ final class ArtisteController extends AbstractController
             $entityManager->persist($artiste);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_artiste_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_admin_artiste_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('artiste/new.html.twig', [
@@ -42,7 +44,7 @@ final class ArtisteController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_artiste_show', methods: ['GET'])]
+    #[Route('/{id}', name: 'app_admin_artiste_show', methods: ['GET'])]
     public function show(Artiste $artiste): Response
     {
         return $this->render('artiste/show.html.twig', [
@@ -50,7 +52,7 @@ final class ArtisteController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_artiste_edit', methods: ['GET', 'POST'])]
+    #[Route('/{id}/edit', name: 'app_admin_artiste_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Artiste $artiste, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(ArtisteType::class, $artiste);
@@ -59,7 +61,7 @@ final class ArtisteController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_artiste_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_admin_artiste_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('artiste/edit.html.twig', [
@@ -68,7 +70,7 @@ final class ArtisteController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_artiste_delete', methods: ['POST'])]
+    #[Route('/{id}', name: 'app_admin_artiste_delete', methods: ['POST'])]
     public function delete(Request $request, Artiste $artiste, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$artiste->getId(), $request->getPayload()->getString('_token'))) {
@@ -76,6 +78,6 @@ final class ArtisteController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('app_artiste_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_admin_artiste_index', [], Response::HTTP_SEE_OTHER);
     }
 }

@@ -10,11 +10,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[Route('/materiel/soiree')]
+#[Route('/admin/materiel_soiree')]
+#[IsGranted('ROLE_ADMIN')]
 final class MaterielSoireeController extends AbstractController
 {
-    #[Route(name: 'app_materiel_soiree_index', methods: ['GET'])]
+    #[Route(name: 'app_admin_materiel_soiree_index', methods: ['GET'])]
     public function index(MaterielSoireeRepository $materielSoireeRepository): Response
     {
         return $this->render('materiel_soiree/index.html.twig', [
@@ -22,7 +24,7 @@ final class MaterielSoireeController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_materiel_soiree_new', methods: ['GET', 'POST'])]
+    #[Route('/new', name: 'app_admin_materiel_soiree_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $materielSoiree = new MaterielSoiree();
@@ -33,7 +35,7 @@ final class MaterielSoireeController extends AbstractController
             $entityManager->persist($materielSoiree);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_materiel_soiree_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_admin_materiel_soiree_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('materiel_soiree/new.html.twig', [
@@ -42,7 +44,7 @@ final class MaterielSoireeController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_materiel_soiree_show', methods: ['GET'])]
+    #[Route('/{id}', name: 'app_admin_materiel_soiree_show', methods: ['GET'])]
     public function show(MaterielSoiree $materielSoiree): Response
     {
         return $this->render('materiel_soiree/show.html.twig', [
@@ -50,7 +52,7 @@ final class MaterielSoireeController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_materiel_soiree_edit', methods: ['GET', 'POST'])]
+    #[Route('/{id}/edit', name: 'app_admin_materiel_soiree_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, MaterielSoiree $materielSoiree, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(MaterielSoireeType::class, $materielSoiree);
@@ -59,7 +61,7 @@ final class MaterielSoireeController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_materiel_soiree_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_admin_materiel_soiree_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('materiel_soiree/edit.html.twig', [
@@ -68,7 +70,7 @@ final class MaterielSoireeController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_materiel_soiree_delete', methods: ['POST'])]
+    #[Route('/{id}', name: 'app_admin_materiel_soiree_delete', methods: ['POST'])]
     public function delete(Request $request, MaterielSoiree $materielSoiree, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$materielSoiree->getId(), $request->getPayload()->getString('_token'))) {
@@ -76,6 +78,6 @@ final class MaterielSoireeController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('app_materiel_soiree_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_admin_materiel_soiree_index', [], Response::HTTP_SEE_OTHER);
     }
 }

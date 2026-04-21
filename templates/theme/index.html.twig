@@ -20,8 +20,8 @@
                 <td>{{ theme.id }}</td>
                 <td>{{ theme.name }}</td>
                 <td>
-                    <a href="{{ path('app_theme_show', {'id': theme.id}) }}">show</a>
-                    <a href="{{ path('app_theme_edit', {'id': theme.id}) }}">edit</a>
+                    <a href="{{ path('app_admin_theme_show', {'id': theme.id}) }}">show</a>
+                    <a href="{{ path('app_admin_theme_edit', {'id': theme.id}) }}">edit</a>
                 </td>
             </tr>
         {% else %}
@@ -32,5 +32,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_theme_new') }}">Create new</a>
+    <a href="{{ path('app_admin_theme_new') }}">Create new</a>
 {% endblock %}

@@ -21,8 +21,8 @@
                 <td>{{ materiel_soiree.dateReservationDebut ? materiel_soiree.dateReservationDebut|date('Y-m-d') : '' }}</td>
                 <td>{{ materiel_soiree.dateReservationFin ? materiel_soiree.dateReservationFin|date('Y-m-d') : '' }}</td>
                 <td>
-                    <a href="{{ path('app_materiel_soiree_show', {'id': materiel_soiree.id}) }}">show</a>
-                    <a href="{{ path('app_materiel_soiree_edit', {'id': materiel_soiree.id}) }}">edit</a>
+                    <a href="{{ path('app_admin_materiel_soiree_show', {'id': materiel_soiree.id}) }}">show</a>
+                    <a href="{{ path('app_admin_materiel_soiree_edit', {'id': materiel_soiree.id}) }}">edit</a>
                 </td>
             </tr>
         {% else %}
@@ -33,5 +33,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_materiel_soiree_new') }}">Create new</a>
+    <a href="{{ path('app_admin_materiel_soiree_new') }}">Create new</a>
 {% endblock %}
