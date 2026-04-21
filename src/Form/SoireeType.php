@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Artiste;
 use App\Entity\Soiree;
+use App\Entity\Theme;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -31,6 +32,11 @@ class SoireeType extends AbstractType
                 'expanded' => true,      
                 'required' => false,
                 'by_reference' => false, 
+            ])
+            ->add('theme', EntityType::class, [
+                'class' => Theme::class,
+                'choice_label' => 'name',
+                'required' => false,
             ])
         ;
     }
