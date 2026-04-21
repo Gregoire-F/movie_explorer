@@ -11,6 +11,9 @@ class ThemeType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $builder
+            ->add('name') 
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

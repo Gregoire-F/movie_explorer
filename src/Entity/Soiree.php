@@ -44,6 +44,10 @@ class Soiree
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $email = null;
 
+    #[ORM\ManyToOne(targetEntity: Theme::class, inversedBy: 'soirees')]
+    #[ORM\JoinColumn(nullable: true)]
+    private ?Theme $theme = null;
+
     // ✅ AJOUT : la relation ManyToMany sur une propriété
     #[ORM\ManyToMany(targetEntity: Artiste::class, inversedBy: 'soirees')]
     #[ORM\JoinTable(name: 'soiree_artiste')]
@@ -135,6 +139,17 @@ class Soiree
     public function removeArtiste(Artiste $artiste): static
     {
         $this->artistes->removeElement($artiste);
+        return $this;
+    }
+
+    public function getTheme(): ?Theme
+    {
+        return $this->theme;
+    }
+
+    public function setTheme(?Theme $theme): static
+    {
+        $this->theme = $theme;
         return $this;
     }
 }

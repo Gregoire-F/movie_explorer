@@ -1,35 +1,45 @@
 <?php
 
-// namespace App\DataFixtures;
-
-// use App\Entity\Soiree;
-// use DateTimeImmutable;
-// use Doctrine\Bundle\FixturesBundle\Fixture;
-// use Doctrine\Persistence\ObjectManager;
-
-// class AppFixtures extends Fixture
-// {
-//     public function load(ObjectManager $manager): void
-//     {
-//         $soiree = new Soiree();
-//         $soiree->setTitre("Noël");
-//         $soiree->setDateSoiree(new DateTimeImmutable("2026-12-24"));
-//         $soiree->setDateCreation(new DateTimeImmutable());
-//         $soiree->setStatut("a mettre en place");
-//         $manager->persist($soiree);
-//         $manager->flush();
-//     }
-// }
 namespace App\DataFixtures;
 
+use App\Entity\Artiste;
+use App\Entity\Soiree;
+use App\Entity\Theme;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
-use App\Factory\SoireeFactory;
 
 class AppFixtures extends Fixture
 {
    public function load(ObjectManager $manager): void
    {
-       SoireeFactory::createMany(5);
+       $artistes = [];
+       for ($i = 1; $i <= 5; $i++) {
+           $artiste = new Artiste();
+           $artiste->setNom('Artiste ' . $i);
+           $manager->persist($artiste);
+           $artistes[] = $artiste;
+       }
+       
+       $themes = [];
+       for ($i = 1; $i <= 5; $i++) {
+           $theme = new Theme();
+           $theme->setName('Theme ' . $i);
+           $manager->persist($theme);
+           $themes[] = $theme;
+       }
+       
+       $manager->flush();
+       
+       for ($i = 1; $i <= 5; $i++) {
+           $soiree = new Soiree();
+           $soiree->setTitre('Soirée ' . $i);
+           $soiree->setDateSoiree(new \DateTimeImmutable());
+           $soiree->setDateCreation(new \DateTimeImmutable());
+           $soiree->setTheme($themes[$i - 1]);
+           $soiree->addArtiste($artistes[$i - 1]);
+           $manager->persist($soiree);
+       }
+       
+       $manager->flush();
    }
 }

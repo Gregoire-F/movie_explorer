@@ -2,13 +2,13 @@
 
 namespace App\Factory;
 
-use App\Entity\Soiree;
+use App\Entity\Theme;
 use Zenstruck\Foundry\Persistence\PersistentProxyObjectFactory;
 
 /**
- * @extends PersistentProxyObjectFactory<Soiree>
+ * @extends PersistentProxyObjectFactory<Theme>
  */
-final class SoireeFactory extends PersistentProxyObjectFactory
+final class ThemeFactory extends PersistentProxyObjectFactory
 {
     /**
      * @see https://symfony.com/bundles/ZenstruckFoundryBundle/current/index.html#factories-as-services
@@ -22,7 +22,7 @@ final class SoireeFactory extends PersistentProxyObjectFactory
     #[\Override]
     public static function class(): string
     {
-        return Soiree::class;
+        return Theme::class;
     }
 
     /**
@@ -34,11 +34,7 @@ final class SoireeFactory extends PersistentProxyObjectFactory
     protected function defaults(): array|callable
     {
         return [
-            'dateCreation' => \DateTimeImmutable::createFromMutable(self::faker()->dateTime()),
-            'dateSoiree' => \DateTimeImmutable::createFromMutable(self::faker()->dateTime()),
-            'titre' => self::faker()->text(15),
-            'statut' => self::faker()->text(15),
-            'email' => self::faker()->email(),
+            'name' => self::faker()->text(20),
         ];
     }
 
@@ -49,7 +45,7 @@ final class SoireeFactory extends PersistentProxyObjectFactory
     protected function initialize(): static
     {
         return $this
-            // ->afterInstantiate(function(Soiree $soiree): void {})
+            // ->afterInstantiate(function(Theme $theme): void {})
         ;
     }
 }
