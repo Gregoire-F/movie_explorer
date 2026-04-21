@@ -32,14 +32,6 @@
                 <td>{{ soiree.email }}</td>
             </tr>
             <tr>
-                <th>DateReservationDebut</th>
-                <td>{{ soiree.dateReservationDebut ? soiree.dateReservationDebut|date('Y-m-d') : '' }}</td>
-            </tr>
-            <tr>
-                <th>DateReservationFin</th>
-                <td>{{ soiree.dateReservationFin ? soiree.dateReservationFin|date('Y-m-d') : '' }}</td>
-            </tr>
-            <tr>
                 <th>Artiste</th>
                 <td>
                     {% for artiste in soiree.artistes %}

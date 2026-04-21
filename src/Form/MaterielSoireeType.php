@@ -16,7 +16,10 @@ class MaterielSoireeType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('dateReservation', DateType::class, [
+            ->add('dateReservationDebut', DateType::class, [
+                'widget' => 'single_text',
+            ])
+            ->add('dateReservationFin', DateType::class, [
                 'widget' => 'single_text',
             ])
             ->add('materiel', EntityType::class, [

@@ -14,8 +14,10 @@ class MaterielSoiree
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::DATE_IMMUTABLE)]
-    private ?\DateTimeImmutable $dateReservation = null;
+    #[ORM\Column(type: Types::DATE_IMMUTABLE, nullable: true)]
+    private ?\DateTimeImmutable $dateReservationDebut = null;
+    #[ORM\Column(type: Types::DATE_IMMUTABLE, nullable: true)]
+    private ?\DateTimeImmutable $dateReservationFin = null;
 
     #[ORM\ManyToOne(targetEntity: Materiel::class, inversedBy: 'materielSoirees')]
     #[ORM\JoinColumn(nullable: false)]
@@ -30,14 +32,26 @@ class MaterielSoiree
         return $this->id;
     }
 
-    public function getDateReservation(): ?\DateTimeImmutable
+    public function getDateReservationDebut(): ?\DateTimeImmutable
     {
-        return $this->dateReservation;
+        return $this->dateReservationDebut;
     }
 
-    public function setDateReservation(\DateTimeImmutable $dateReservation): static
+    public function setDateReservationDebut(\DateTimeImmutable $dateReservationDebut): static
     {
-        $this->dateReservation = $dateReservation;
+        $this->dateReservationDebut = $dateReservationDebut;
+
+        return $this;
+    }
+
+    public function getDateReservationFin(): ?\DateTimeImmutable
+    {
+        return $this->dateReservationFin;
+    }
+
+    public function setDateReservationFin(\DateTimeImmutable $dateReservationFin): static
+    {
+        $this->dateReservationFin = $dateReservationFin;
 
         return $this;
     }

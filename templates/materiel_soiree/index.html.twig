@@ -9,7 +9,8 @@
         <thead>
             <tr>
                 <th>Id</th>
-                <th>DateReservation</th>
+                <th>DateReservationDebut</th>
+                <th>DateReservationFin</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -17,7 +18,8 @@
         {% for materiel_soiree in materiel_soirees %}
             <tr>
                 <td>{{ materiel_soiree.id }}</td>
-                <td>{{ materiel_soiree.dateReservation ? materiel_soiree.dateReservation|date('Y-m-d') : '' }}</td>
+                <td>{{ materiel_soiree.dateReservationDebut ? materiel_soiree.dateReservationDebut|date('Y-m-d') : '' }}</td>
+                <td>{{ materiel_soiree.dateReservationFin ? materiel_soiree.dateReservationFin|date('Y-m-d') : '' }}</td>
                 <td>
                     <a href="{{ path('app_materiel_soiree_show', {'id': materiel_soiree.id}) }}">show</a>
                     <a href="{{ path('app_materiel_soiree_edit', {'id': materiel_soiree.id}) }}">edit</a>
@@ -25,7 +27,7 @@
             </tr>
         {% else %}
             <tr>
-                <td colspan="3">no records found</td>
+                <td colspan="4">no records found</td>
             </tr>
         {% endfor %}
         </tbody>

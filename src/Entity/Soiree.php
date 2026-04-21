@@ -33,10 +33,7 @@ class Soiree
 
     #[ORM\Column(type: Types::DATE_IMMUTABLE)]
     private ?\DateTimeImmutable $dateSoiree = null;
-    #[ORM\Column(type: Types::DATE_IMMUTABLE)]
-    private ?\DateTimeImmutable $dateReservationDebut = null;
-    #[ORM\Column(type: Types::DATE_IMMUTABLE)]
-    private ?\DateTimeImmutable $dateReservationFin = null;
+    
 
     #[ORM\Column(type: Types::DATE_IMMUTABLE)]
     private ?\DateTimeImmutable $dateCreation = null;
@@ -204,24 +201,4 @@ private Collection $materielSoirees;
         }
         return $this;
     }
-    public function getDateReservationDebut(): ?\DateTimeImmutable
-    {
-        return $this->dateReservationDebut;
     }
-    public function setDateReservationDebut(\DateTimeImmutable $dateReservationDebut): static
-    {
-        $this->dateReservationDebut = $dateReservationDebut;
-        return $this;
-    }
-
-    public function getDateReservationFin(): ?\DateTimeImmutable
-    {
-        return $this->dateReservationFin;
-    }
-    public function setDateReservationFin(\DateTimeImmutable $dateReservationFin): static
-    {
-        $this->dateReservationFin = $dateReservationFin;
-        return $this;
-    }
-
-}

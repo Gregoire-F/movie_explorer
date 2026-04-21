@@ -12,8 +12,12 @@
                 <td>{{ materiel_soiree.id }}</td>
             </tr>
             <tr>
-                <th>DateReservation</th>
-                <td>{{ materiel_soiree.dateReservation ? materiel_soiree.dateReservation|date('Y-m-d') : '' }}</td>
+                <th>DateReservationDebut</th>
+                <td>{{ materiel_soiree.dateReservationDebut ? materiel_soiree.dateReservationDebut|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>DateReservationFin</th>
+                <td>{{ materiel_soiree.dateReservationFin ? materiel_soiree.dateReservationFin|date('Y-m-d') : '' }}</td>
             </tr>
         </tbody>
     </table>

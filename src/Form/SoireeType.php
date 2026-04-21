@@ -48,13 +48,7 @@ class SoireeType extends AbstractType
                 'required' => false,
                 'by_reference' => false,
             ])
-            ->add('dateReservationDebut', DateType::class, [
-                'widget' => 'single_text',
-            ])
-            ->add('dateReservationFin', DateType::class, [
-                'widget' => 'single_text',
-            ])
-        ;
+            ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
