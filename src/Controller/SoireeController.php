@@ -15,10 +15,18 @@ use Symfony\Component\Routing\Attribute\Route;
 final class SoireeController extends AbstractController
 {
     #[Route(name: 'app_soiree_index', methods: ['GET'])]
+    // public function index(SoireeRepository $soireeRepository): Response
+    // {
+    //     return $this->render('soiree/index.html.twig', [
+    //         'soirees' => $soireeRepository->findAll(),
+    //     ]);
+    // }
     public function index(SoireeRepository $soireeRepository): Response
     {
+        $soirees = $soireeRepository->findProchaineSoirees();
+
         return $this->render('soiree/index.html.twig', [
-            'soirees' => $soireeRepository->findAll(),
+            'soirees' => $soirees,
         ]);
     }
 
@@ -71,7 +79,7 @@ final class SoireeController extends AbstractController
     #[Route('/{id}', name: 'app_soiree_delete', methods: ['POST'])]
     public function delete(Request $request, Soiree $soiree, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$soiree->getId(), $request->getPayload()->getString('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $soiree->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($soiree);
             $entityManager->flush();
         }

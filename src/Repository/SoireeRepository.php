@@ -16,28 +16,27 @@ class SoireeRepository extends ServiceEntityRepository
         parent::__construct($registry, Soiree::class);
     }
 
-//    /**
-//     * @return Soiree[] Returns an array of Soiree objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('s')
-//            ->andWhere('s.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('s.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    /**
+     * @return Soiree[] Returns an array of Soiree objects
+     */
+    public function findProchaineSoirees(): array
+    {
+        return $this->createQueryBuilder('s')
+            ->where('s.dateSoiree >= :now')          
+            ->setParameter('now', new \DateTime())
+            ->orderBy('s.dateSoiree', 'ASC')         
+            ->setMaxResults(3)                  
+            ->getQuery()
+            ->getResult();
+    }
 
-//    public function findOneBySomeField($value): ?Soiree
-//    {
-//        return $this->createQueryBuilder('s')
-//            ->andWhere('s.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    public function findOneBySomeField($value): ?Soiree
+    {
+        return $this->createQueryBuilder('s')
+            ->andWhere('s.exampleField = :val')
+            ->setParameter('val', $value)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
 }
