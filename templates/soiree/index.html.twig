@@ -17,6 +17,8 @@
                 <th class="bg-white px-4 py-2 rounded-lg text-left">Artiste</th>
                 <th class="bg-white px-4 py-2 rounded-lg text-left">Theme</th>
                 <th class="bg-white px-4 py-2 rounded-lg text-left">Materiel</th>
+                <th class="bg-white px-4 py-2 rounded-lg text-left">DateReservationDebut</th>
+                <th class="bg-white px-4 py-2 rounded-lg text-left">DateReservationFin</th>
                 <th class="bg-white px-4 py-2 rounded-lg text-left">actions</th>
             </tr>
         </thead>
@@ -40,6 +42,8 @@
                         {{ materiel.materiel.nom }}{% if not loop.last %}, {% endif %}
                     {% endfor %}
                 </td>
+                <td class="bg-white px-4 py-2 rounded-lg">{{ soiree.dateReservationDebut ? soiree.dateReservationDebut|date('Y-m-d') : '' }}</td>
+                <td class="bg-white px-4 py-2 rounded-lg">{{ soiree.dateReservationFin ? soiree.dateReservationFin|date('Y-m-d') : '' }}</td>
                 <td class="bg-white px-4 py-2 rounded-lg">
                     <a href="{{ path('app_soiree_show', {'id': soiree.id}) }}">show</a>
                     <a href="{{ path('app_soiree_edit', {'id': soiree.id}) }}">edit</a>

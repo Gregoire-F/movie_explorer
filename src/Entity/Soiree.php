@@ -8,7 +8,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Mapping\ManyToMany;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: SoireeRepository::class)]
@@ -34,6 +33,10 @@ class Soiree
 
     #[ORM\Column(type: Types::DATE_IMMUTABLE)]
     private ?\DateTimeImmutable $dateSoiree = null;
+    #[ORM\Column(type: Types::DATE_IMMUTABLE)]
+    private ?\DateTimeImmutable $dateReservationDebut = null;
+    #[ORM\Column(type: Types::DATE_IMMUTABLE)]
+    private ?\DateTimeImmutable $dateReservationFin = null;
 
     #[ORM\Column(type: Types::DATE_IMMUTABLE)]
     private ?\DateTimeImmutable $dateCreation = null;
@@ -48,15 +51,14 @@ class Soiree
     #[ORM\JoinColumn(nullable: true)]
     private ?Theme $theme = null;
 
-    // ✅ AJOUT : la relation ManyToMany sur une propriété
     #[ORM\ManyToMany(targetEntity: Artiste::class, inversedBy: 'soirees')]
     #[ORM\JoinTable(name: 'soiree_artiste')]
     private Collection $artistes;
 
-    #[ORM\OneToMany(targetEntity: MaterielSoiree::class, mappedBy: 'soiree')]
-    private Collection $materielSoirees;
+#[ORM\OneToMany(targetEntity: MaterielSoiree::class, mappedBy: 'soiree', cascade: ['persist'])]
+private Collection $materielSoirees;
 
-    // ✅ AJOUT : initialiser la collection dans le constructeur
+    
     public function __construct()
     {
         $this->artistes = new ArrayCollection();
@@ -126,7 +128,6 @@ class Soiree
 
         return $this;
     }
-        // ✅ AJOUT : getters/setters pour artistes
     public function getArtistes(): Collection
     {
         return $this->artistes;
@@ -180,4 +181,47 @@ class Soiree
         }
         return $this;
     }
+    public function getMateriel(): Collection
+    {
+        return $this->materielSoirees->map(function (MaterielSoiree $ms) {
+            return $ms->getMateriel();
+        });
+    }
+    public function addMateriel(Materiel $materiel): static
+    {
+        $materielSoiree = new MaterielSoiree();
+        $materielSoiree->setMateriel($materiel);
+        $this->addMaterielSoiree($materielSoiree);
+        return $this;
+    }
+    public function removeMateriel(Materiel $materiel): static
+    {
+        foreach ($this->materielSoirees as $materielSoiree) {
+            if ($materielSoiree->getMateriel() === $materiel) {
+                $this->removeMaterielSoiree($materielSoiree);
+                break;
+            }
+        }
+        return $this;
+    }
+    public function getDateReservationDebut(): ?\DateTimeImmutable
+    {
+        return $this->dateReservationDebut;
+    }
+    public function setDateReservationDebut(\DateTimeImmutable $dateReservationDebut): static
+    {
+        $this->dateReservationDebut = $dateReservationDebut;
+        return $this;
+    }
+
+    public function getDateReservationFin(): ?\DateTimeImmutable
+    {
+        return $this->dateReservationFin;
+    }
+    public function setDateReservationFin(\DateTimeImmutable $dateReservationFin): static
+    {
+        $this->dateReservationFin = $dateReservationFin;
+        return $this;
+    }
+
 }

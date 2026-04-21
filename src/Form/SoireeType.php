@@ -3,9 +3,11 @@
 namespace App\Form;
 
 use App\Entity\Artiste;
+use App\Entity\Materiel;
 use App\Entity\Soiree;
 use App\Entity\Theme;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -17,10 +19,10 @@ class SoireeType extends AbstractType
     {
         $builder
             ->add('titre')
-            ->add('dateSoiree', null, [
+            ->add('dateSoiree', DateType::class, [
                 'widget' => 'single_text',
             ])
-            ->add('dateCreation', null, [
+            ->add('dateCreation', DateType::class, [
                 'widget' => 'single_text',
             ])
             ->add('statut')
@@ -38,15 +40,19 @@ class SoireeType extends AbstractType
                 'choice_label' => 'name',
                 'required' => false,
             ])
-            ->add('materielSoirees', EntityType::class, [
-                'class' => 'App\Entity\MaterielSoiree',
-                'choice_label' => function($materielSoiree) {
-                    return $materielSoiree->getMateriel()->getNom() . ' (Réservé le: ' . $materielSoiree->getDateReservation()->format('Y-m-d') . ')';
-                },
+            ->add('materiel', EntityType::class, [
+                'class' => Materiel::class,
+                'choice_label' => 'nom',
                 'multiple' => true,
                 'expanded' => true,
                 'required' => false,
                 'by_reference' => false,
+            ])
+            ->add('dateReservationDebut', DateType::class, [
+                'widget' => 'single_text',
+            ])
+            ->add('dateReservationFin', DateType::class, [
+                'widget' => 'single_text',
             ])
         ;
     }
