@@ -16,6 +16,7 @@
                 <th class="bg-white px-4 py-2 rounded-lg text-left">Email</th>
                 <th class="bg-white px-4 py-2 rounded-lg text-left">Artiste</th>
                 <th class="bg-white px-4 py-2 rounded-lg text-left">Theme</th>
+                <th class="bg-white px-4 py-2 rounded-lg text-left">Materiel</th>
                 <th class="bg-white px-4 py-2 rounded-lg text-left">actions</th>
             </tr>
         </thead>
@@ -35,13 +36,18 @@
                 </td>
                 <td class="bg-white px-4 py-2 rounded-lg">{{ soiree.theme ? soiree.theme.name : '' }}</td>
                 <td class="bg-white px-4 py-2 rounded-lg">
+                    {% for materiel in soiree.materielSoirees %}
+                        {{ materiel.materiel.nom }}{% if not loop.last %}, {% endif %}
+                    {% endfor %}
+                </td>
+                <td class="bg-white px-4 py-2 rounded-lg">
                     <a href="{{ path('app_soiree_show', {'id': soiree.id}) }}">show</a>
                     <a href="{{ path('app_soiree_edit', {'id': soiree.id}) }}">edit</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="9">no records found</td>
+                <td colspan="10">no records found</td>
             </tr>
         {% endfor %}
         </tbody>

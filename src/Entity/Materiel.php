@@ -3,7 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\MaterielRepository;
-use Doctrine\DBAL\Types\Types;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: MaterielRepository::class)]
@@ -14,68 +15,55 @@ class Materiel
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::DATE_IMMUTABLE)]
-    private ?\DateTimeImmutable $dateReservationDebut = null;
-
-    #[ORM\Column(type: Types::DATE_IMMUTABLE)]
-    private ?\DateTimeImmutable $dateReservationFin = null;
-
     #[ORM\Column(length: 100)]
-    private ?string $materiel = null;
+    private ?string $nom = null;
 
-    #[ORM\Column(length: 100)]
-    private ?string $soiree = null;
+    #[ORM\OneToMany(targetEntity: MaterielSoiree::class, mappedBy: 'materiel')]
+    private Collection $materielSoirees;
+
+    public function __construct()
+    {
+        $this->materielSoirees = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getDateReservationDebut(): ?\DateTimeImmutable
+    public function getNom(): ?string
     {
-        return $this->dateReservationDebut;
+        return $this->nom;
     }
 
-    public function setDateReservationDebut(\DateTimeImmutable $dateReservationDebut): static
+    public function setNom(string $nom): static
     {
-        $this->dateReservationDebut = $dateReservationDebut;
+        $this->nom = $nom;
 
         return $this;
     }
 
-    public function getDateReservationFin(): ?\DateTimeImmutable
+    public function getMaterielSoirees(): Collection
     {
-        return $this->dateReservationFin;
+        return $this->materielSoirees;
     }
 
-    public function setDateReservationFin(\DateTimeImmutable $dateReservationFin): static
+    public function addMaterielSoiree(MaterielSoiree $materielSoiree): static
     {
-        $this->dateReservationFin = $dateReservationFin;
-
+        if (!$this->materielSoirees->contains($materielSoiree)) {
+            $this->materielSoirees->add($materielSoiree);
+            $materielSoiree->setMateriel($this);
+        }
         return $this;
     }
 
-    public function getMateriel(): ?string
+    public function removeMaterielSoiree(MaterielSoiree $materielSoiree): static
     {
-        return $this->materiel;
-    }
-
-    public function setMateriel(string $materiel): static
-    {
-        $this->materiel = $materiel;
-
-        return $this;
-    }
-
-    public function getSoiree(): ?string
-    {
-        return $this->soiree;
-    }
-
-    public function setSoiree(string $soiree): static
-    {
-        $this->soiree = $soiree;
-
+        if ($this->materielSoirees->removeElement($materielSoiree)) {
+            if ($materielSoiree->getMateriel() === $this) {
+                $materielSoiree->setMateriel(null);
+            }
+        }
         return $this;
     }
 }

@@ -38,6 +38,16 @@ class SoireeType extends AbstractType
                 'choice_label' => 'name',
                 'required' => false,
             ])
+            ->add('materielSoirees', EntityType::class, [
+                'class' => 'App\Entity\MaterielSoiree',
+                'choice_label' => function($materielSoiree) {
+                    return $materielSoiree->getMateriel()->getNom() . ' (Réservé le: ' . $materielSoiree->getDateReservation()->format('Y-m-d') . ')';
+                },
+                'multiple' => true,
+                'expanded' => true,
+                'required' => false,
+                'by_reference' => false,
+            ])
         ;
     }
 
