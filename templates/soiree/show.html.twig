@@ -31,6 +31,34 @@
                 <th>Email</th>
                 <td>{{ soiree.email }}</td>
             </tr>
+            <tr>
+                <th>DateReservationDebut</th>
+                <td>{{ soiree.dateReservationDebut ? soiree.dateReservationDebut|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>DateReservationFin</th>
+                <td>{{ soiree.dateReservationFin ? soiree.dateReservationFin|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Artiste</th>
+                <td>
+                    {% for artiste in soiree.artistes %}
+                        {{ artiste.nom }}{% if not loop.last %}, {% endif %}
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>Theme</th>
+                <td>{{ soiree.theme ? soiree.theme.name : '' }}</td>
+            </tr>
+            <tr>
+                <th>Materiel</th>
+                <td>
+                    {% for materiel in soiree.materielSoirees %}
+                        {{ materiel.materiel.nom }}{% if not loop.last %}, {% endif %}
+                    {% endfor %}
+                </td>
+            </tr>
         </tbody>
     </table>
 
