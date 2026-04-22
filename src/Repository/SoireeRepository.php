@@ -25,7 +25,7 @@ class SoireeRepository extends ServiceEntityRepository
             ->where('s.dateSoiree >= :now')          
             ->setParameter('now', new \DateTime())
             ->orderBy('s.dateSoiree', 'ASC')         
-            ->setMaxResults(3)                  
+            ->setMaxResults(10)                  
             ->getQuery()
             ->getResult();
     }
